@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-
-from MyPlant.plants.forms import PlantCreateForm, ProfileCreateForm, PlantEditForm, PlantDeleteForm
+from MyPlant.plants.forms import PlantCreateForm, ProfileCreateForm, PlantEditForm, PlantDeleteForm, ProfileDeleteForm, \
+    ProfileEditForm
 from .models import Plant
+from .templatetags.custom_tags import get_profile
 
 
 def index(request):
@@ -38,11 +39,41 @@ def profile_details(request):
 
 
 def profile_edit(request):
-    pass
+    profile = get_profile()
+
+    if request.method == 'GET':
+        form = ProfileEditForm(instance=profile)
+    else:
+        form = ProfileEditForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile-details')
+
+    context = {
+        'profile': profile,
+        'form': form
+    }
+    return render(request, 'profile/edit-profile.html', context)
 
 
 def profile_delete(request):
-    pass
+    profile = get_profile()
+    plant = Plant.objects.all()
+
+    if request.method == 'POST':
+        form = ProfileDeleteForm(request.POST, instance=profile)
+        form.save()
+        for i in plant:
+            plant_form = PlantDeleteForm(request.POST, instance=i)
+            plant_form.save()
+
+        return redirect('index')
+
+    context = {
+        'profile': profile
+    }
+
+    return render(request, 'profile/delete-profile.html', context)
 
 
 def plant_create(request):

@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-    <!-- delete plant form -->
     <section id="delete-page" class="auth">
         <form id="delete" method="post" action="{% url 'plant-delete' pk=plant.pk %}">
             <div class="container">
@@ -8,7 +7,7 @@
                 {{ form }}
                 {% csrf_token %}
                 <input class="btn submit" type="submit" value="Delete Plant">
-
             </div>
         </form>
+    </section>>
 {% endblock %}

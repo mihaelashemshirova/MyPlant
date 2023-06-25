@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import MinLengthValidator
-from .validators import plant_name_only_letters,check_name_capital_letter
+from .validators import plant_name_only_letters, check_name_capital_letter
 
 
 class Profile(models.Model):
@@ -29,7 +29,6 @@ class Profile(models.Model):
 
     def full_name(self):
         return f'{self.first_name} {self.last_name}'
-
 
 
 class Plant(models.Model):

@@ -14,6 +14,24 @@ class ProfileCreateForm(forms.ModelForm):
         }
 
 
+class ProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = '__all__'
+
+
+class ProfileDeleteForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = '__all__'
+
+    def save(self, commit=True):
+        if self.instance:
+            self.instance.delete()
+
+        return self.instance
+
+
 class PlantBaseForm(forms.ModelForm):
     class Meta:
         model = Plant
